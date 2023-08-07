@@ -2,11 +2,11 @@ import React from "react";
 import {
   Box,
   Flex,
-  FormControl,
-  FormLabel,
   Input,
-  SimpleGrid,
   Button,
+  FormLabel,
+  SimpleGrid,
+  FormControl,
 } from "@chakra-ui/react";
 
 export const RegisterBody: React.FC = () => {
