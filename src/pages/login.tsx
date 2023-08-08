@@ -1,10 +1,10 @@
-import { Header } from "../components/header";
-import { LoginBody } from "../components/loginBody";
+import { NotLoggedHeader } from "../components/headers/notLoggedHeader";
+import { LoginBody } from "../components/bodies/loginBody";
 
 export function Login() {
   return (
     <>
-      <Header />
+      <NotLoggedHeader />
       <LoginBody />
     </>
   );

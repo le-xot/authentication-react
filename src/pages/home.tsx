@@ -1,10 +1,10 @@
-import { Header } from "../components/header";
-import { HomeBody } from "../components/homeBody";
+import { NotLoggedHeader } from "../components/headers/notLoggedHeader";
+import { HomeBody } from "../components/bodies/homeBody";
 
 export function Home() {
   return (
     <>
-      <Header />
+      <NotLoggedHeader />
       <HomeBody />
     </>
   );

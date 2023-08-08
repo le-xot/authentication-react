@@ -1,10 +1,10 @@
-import { Header } from "../components/header";
-import { RegisterBody } from "../components/registerBody";
+import { NotLoggedHeader } from "../components/headers/notLoggedHeader";
+import { RegisterBody } from "../components/bodies/registerBody";
 
 export function Register() {
   return (
     <>
-      <Header />
+      <NotLoggedHeader />
       <RegisterBody />
     </>
   );
