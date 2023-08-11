@@ -1,5 +1,5 @@
-import { LoggedHeader } from "../components/headers/loggedHeader";
-import { AdminBody } from "../components/bodies/adminBody";
+import { LoggedHeader } from "../components/headers/logged-header";
+import { AdminBody } from "../components/bodies/admin-body";
 
 export function Admin() {
   return (
