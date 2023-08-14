@@ -1,13 +1,14 @@
 import { Box, Button, Flex, IconButton, Link, Spacer } from "@chakra-ui/react";
-import { IconHome, IconLogout } from "@tabler/icons-react";
-import { useProfile } from "../hooks/useProfile";
+import { IconHome, IconLogout, IconUserShield } from "@tabler/icons-react";
+import { UserContext } from "../hooks/userContext";
+import { useContext } from "react";
 export const Header: React.FC = () => {
   function deleteTokens() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
   }
-  const { user } = useProfile();
-
+  const userContext = useContext(UserContext);
+  const user = userContext.user;
   return (
     <Box bg={"#1A1B1E"} h={"80px"} p={5}>
       <Flex alignItems={"center"} h="100%">
@@ -33,16 +34,22 @@ export const Header: React.FC = () => {
           </>
         )}
         {user && (
-          <Link href="/">
-            <IconButton
-              icon={<IconLogout />}
-              aria-label={"Log out"}
-              bg={"red.600"}
-              _hover={{ bg: "red.500" }}
-              _active={{ bg: "red.400" }}
-              onClick={deleteTokens}
-            ></IconButton>
-          </Link>
+          <>
+            <Link href="/admin">
+              <Button leftIcon={<IconUserShield />}> Admin Panel </Button>
+            </Link>
+            <Link href="/">
+              <IconButton
+                marginLeft={"20px"}
+                icon={<IconLogout />}
+                aria-label={"Log out"}
+                bg={"red.600"}
+                _hover={{ bg: "red.500" }}
+                _active={{ bg: "red.400" }}
+                onClick={deleteTokens}
+              ></IconButton>
+            </Link>
+          </>
         )}
       </Flex>
     </Box>

@@ -35,8 +35,6 @@ export const RegisterBody: React.FC = () => {
 
     const response = await request.json();
 
-    console.log(response);
-
     setTokens(response);
 
     navigate("/login");
