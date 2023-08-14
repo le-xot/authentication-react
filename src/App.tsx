@@ -1,9 +1,9 @@
 import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
+	BrowserRouter,
+	Routes,
+	Route,
+	Navigate,
+	Outlet,
 } from "react-router-dom";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
@@ -16,44 +16,47 @@ import { useContext } from "react";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 
 const ProtectedRoutes = () => {
-  const userContext = useContext(UserContext);
+	const userContext = useContext(UserContext);
 
-  if (userContext.isLoading) {
-    return (
-      <>
-        <Box h={`calc(100vh - 80px)`} bg={"#141517"}>
-          <Flex justifyContent={"center"} alignItems={"center"} h={"100%"}>
-            <Spinner size={"xl"} />
-          </Flex>
-        </Box>
-      </>
-    );
-  }
-  if (!userContext.user) {
-    return <Navigate to={"/login"} replace />;
-  }
-  return <Outlet />;
+	if (userContext.isLoading) {
+		return (
+			<>
+				<Box h={`calc(100vh - 80px)`} bg={"#141517"}>
+					<Flex justifyContent={"center"} alignItems={"center"} h={"100%"}>
+						<Spinner size={"xl"}/>
+					</Flex>
+				</Box>
+			</>
+		);
+	}
+	if (!userContext.user) {
+		return <Navigate to={"/login"} replace/>;
+	}
+	return <Outlet/>;
 };
 
 export const App = () => {
-  const { user, isLoading } = useProfile();
-  console.log(user, isLoading);
+	const {user, isLoading,refetch} = useProfile();
 
-  return (
-    <UserContext.Provider value={{ user, isLoading }}>
-      <>
-        <Header></Header>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route element={<ProtectedRoutes />}>
-              <Route path="admin" element={<Admin />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </>
-    </UserContext.Provider>
-  );
+	const login = async (accessToken: string, refreshToken: string) => {
+		localStorage.setItem("accessToken", accessToken);
+		localStorage.setItem("refreshToken", refreshToken);
+		await refetch()
+	}
+
+	return (
+		<BrowserRouter>
+			<UserContext.Provider value={{user, isLoading, refetch, login}}>
+				<Header></Header>
+				<Routes>
+					<Route path="/" element={<Home/>}/>
+					<Route path="/login" element={<Login/>}/>
+					<Route path="/register" element={<Register/>}/>
+					<Route element={<ProtectedRoutes/>}>
+						<Route path="admin" element={<Admin/>}/>
+					</Route>
+				</Routes>
+			</UserContext.Provider>
+		</BrowserRouter>
+	);
 };
