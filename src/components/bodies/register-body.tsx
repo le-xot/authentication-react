@@ -31,8 +31,8 @@ export const RegisterBody: React.FC = () => {
 
     if (request.status !== 200) return;
 
-    const response = await request.json() as Record<string, string>;
-    await userContext.login(response.accessToken, response.refreshToken)
+    const response = (await request.json()) as Record<string, string>;
+    await userContext.login(response.accessToken, response.refreshToken);
     navigate("/admin");
   }
 

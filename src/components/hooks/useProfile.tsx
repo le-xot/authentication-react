@@ -8,21 +8,21 @@ export function useProfile() {
     try {
       const req = await fetch("http://localhost:3000/user/profile", {
         headers: {
-          token: accessToken || ''
-        }
-      })
-      const user = await req.json()
-      setUser(user)
+          token: accessToken || "",
+        },
+      });
+      const user = await req.json();
+      setUser(user);
     } catch {
-      setUser(null)
+      setUser(null);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-   fetchProfile()
+    fetchProfile();
   }, []);
 
-  return { user, isLoading, refetch: fetchProfile, };
+  return { user, isLoading, refetch: fetchProfile };
 }

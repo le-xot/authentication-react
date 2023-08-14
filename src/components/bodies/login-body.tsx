@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../hooks/userContext";
 
 export const LoginBody: React.FC = () => {
-  const userContext = useContext(UserContext)
+  const userContext = useContext(UserContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,9 +31,9 @@ export const LoginBody: React.FC = () => {
 
     if (request.status !== 200) return;
 
-    const response = await request.json() as Record<string, string>;
+    const response = (await request.json()) as Record<string, string>;
 
-    await userContext.login(response.accessToken, response.refreshToken)
+    await userContext.login(response.accessToken, response.refreshToken);
     navigate("/admin");
   }
 
