@@ -3,18 +3,26 @@ export function useProfile() {
   const [user, setUser] = useState<Record<string, any> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) return;
+  const fetchProfile = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const req = await fetch("http://localhost:3000/user/profile", {
+        headers: {
+          token: accessToken || ''
+        }
+      })
+      const user = await req.json()
+      setUser(user)
+    } catch {
+      setUser(null)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
-    fetch("http://localhost:3000/user/profile", { headers: { token: token } })
-      .then((r) => r.json())
-      .then((u) => setUser(u))
-      .finally(() => {
-        setIsLoading(false);
-        console.log("user", [user, isLoading]);
-      });
+  useEffect(() => {
+   fetchProfile()
   }, []);
 
-  return { user, isLoading };
+  return { user, isLoading, refetch: fetchProfile, };
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Flex,
@@ -9,15 +9,13 @@ import {
   FormControl,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../hooks/userContext";
 
 export const RegisterBody: React.FC = () => {
+  const userContext = useContext(UserContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  function setTokens(tokens: any) {
-    localStorage.setItem("accessToken", tokens.accessToken);
-    localStorage.setItem("refreshToken", tokens.refreshToken);
-  }
 
   const navigate = useNavigate();
 
@@ -33,13 +31,9 @@ export const RegisterBody: React.FC = () => {
 
     if (request.status !== 200) return;
 
-    const response = await request.json();
-
-    setTokens(response);
-
-    navigate("/login");
-
-    return;
+    const response = await request.json() as Record<string, string>;
+    await userContext.login(response.accessToken, response.refreshToken)
+    navigate("/admin");
   }
 
   return (
